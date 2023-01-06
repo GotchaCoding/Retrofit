@@ -25,7 +25,7 @@ class RetrofitClient private constructor() {
             }
             private set
         @JvmStatic
-        var retrofit: Retrofit? = null
+        lateinit var retrofit: Retrofit
             private set
         private const val baseUrl = "http://www.kobis.or.kr"
     }

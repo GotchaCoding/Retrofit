@@ -28,5 +28,6 @@ data class Movie(
     @SerializedName("repNationNm")
     val repNationNm: String = "",
     @SerializedName("typeNm")
-    val typeNm: String = ""
+    val typeNm: String = "",
+    var isFavorite: Boolean = false
 )

@@ -10,13 +10,13 @@ interface RetrofitInterface {
     fun getDailyMovies(
         @Query("key") key: String?,
         @Query("targetDt") targetDt: String?
-    ): Call<Result?>?
+    ): Call<Result>
 
     @GET("/kobisopenapi/webservice/rest/movie/searchMovieList.json")
     fun getSearchMovies(
-        @Query("key") key: String?,
+        @Query("key") key: String,
         @Query("curPage") curPage: Int,
         @Query("itemPerPage") itemPerPage: Int,
-        @Query("movieNm") movieNm: String?
-    ): Call<ResultSearchMovies?>?
+        @Query("movieNm") movieNm: String
+    ): Call<ResultSearchMovies>
 }

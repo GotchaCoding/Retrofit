@@ -37,39 +37,46 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        Log.e("log", "MainActivity initView() 실행")
         button = findViewById(R.id.btn_main)
         editText = findViewById(R.id.edittext)
         button.setOnClickListener(View.OnClickListener {
             fetchSearch()
         })
         recyclerView = findViewById(R.id.recyclerview_layout)
-        adapter = MovieAdapter(
+
+        /**
+        제거 및 즐겨찾기기능
+         */
+        adapter = MovieAdapter(          //Adapter 객체생성 (생성자에 인터페이스 추가된)
             object : MovieClickListener {
                 override fun onClick(v: View, movie: Movie) {
-                    Log.e("kyh!!!", "onClick(v: View, movie: Movie")
-                    when (v.id) {
+                    Log.e("log", " MainActivity  onClick(v: View, movie: Movie")
+                    when (v.id) {   //패턴매칭할 변수를 괄호안에 지정. 뷰의 아이디 값 일치여부 확인
                         R.id.btn_remove -> {
                             adapter.removeItem(movie)
                         }
-                        R.id.btn_favorite -> {
+                        R.id.img_star -> {
                             adapter.favoriteItem(movie)
                         }
                     }
                 }
             }
         )
-        recyclerView.adapter = adapter
+        recyclerView.adapter = adapter    //recyclerview.setAdpater(adapter)
         val layoutManager =
             LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
-        recyclerView.layoutManager = layoutManager
+        recyclerView.layoutManager = layoutManager  //recyclerview.setLayoutManager(layoutManager)
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             //페이징 처리
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                //                Log.e(tag, "onScrolled 메서드 실행");
+                Log.e("log", "MainActivity  onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) 메서드 실행");
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                 val totalAItem = layoutManager.itemCount
+                Log.e("log2" ,"totalAItem : $totalAItem")
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+                Log.e("log2" ,"totalAItem : $lastVisibleItem")
                 if (!mLoading && lastVisibleItem == totalAItem - 2) {
                     mLoading = true
                     fetch()
@@ -114,6 +121,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetch() {
+        Log.e("log" , "MainActivity fetch() 실행")
         retrofitInterface.getSearchMovies(
             Retrofit2App.API_KEY,
             curPage,

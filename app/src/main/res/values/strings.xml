@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Retrofit2</string>
+    <dimen name="text_size">16sp</dimen>
 </resources>

@@ -1,6 +1,7 @@
-package org.techtown.retrofit2
+package org.techtown.retrofit2.listener
 
 import android.view.View
+import org.techtown.retrofit2.response.Movie
 
 interface MovieClickListener {
     fun onClick(v: View, movie : Movie)

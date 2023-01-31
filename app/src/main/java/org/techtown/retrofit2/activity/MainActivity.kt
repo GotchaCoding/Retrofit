@@ -1,14 +1,16 @@
-package org.techtown.retrofit2
+package org.techtown.retrofit2.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.techtown.retrofit2.fragment.movielist.MovieListFragment
+import org.techtown.retrofit2.R
+import org.techtown.retrofit2.fragment.search.SearchMovieFragment
 import org.techtown.retrofit2.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -57,7 +59,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val fragments: List<Fragment>
 
         init {
-            fragments = listOf(OneFragment(), TwoFragment())
+            fragments = listOf(MovieListFragment(), SearchMovieFragment())
         }
 
         override fun getItemCount(): Int = fragments.size

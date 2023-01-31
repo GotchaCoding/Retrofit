@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Retrofit2</string>
     <dimen name="text_size">16sp</dimen>
+    <string name="movienamehint">영화 제목을 입력하세요</string>
 </resources>

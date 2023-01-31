@@ -1,4 +1,4 @@
-package org.techtown.retrofit2
+package org.techtown.retrofit2.fragment.movielist
 
 import android.os.Bundle
 import android.util.Log
@@ -11,13 +11,19 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import org.techtown.retrofit2.RetrofitClient.Companion.retrofit
+import org.techtown.retrofit2.*
+import org.techtown.retrofit2.retrofit.RetrofitClient.Companion.retrofit
+import org.techtown.retrofit2.application.Retrofit2App
 import org.techtown.retrofit2.databinding.FragmentOneBinding
+import org.techtown.retrofit2.listener.MovieClickListener
+import org.techtown.retrofit2.response.Movie
+import org.techtown.retrofit2.response.ResultSearchMovies
+import org.techtown.retrofit2.retrofit.service.MovieListService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class OneFragment : Fragment() {
+class MovieListFragment : Fragment() {
     lateinit var binding: FragmentOneBinding
 
 
@@ -32,7 +38,7 @@ class OneFragment : Fragment() {
 
     private lateinit var adapter: MovieAdapter
 
-    var retrofitInterface = retrofit.create(RetrofitInterface::class.java)
+    var service = retrofit.create(MovieListService::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,11 +65,7 @@ class OneFragment : Fragment() {
 
     private fun initView() {
         Log.e("log", "MainActivity initView() 실행")
-        button = binding.btnMain
-        editText = binding.edittext
-        button.setOnClickListener(View.OnClickListener {
-            fetchSearch()
-        })
+
         recyclerView = binding.recyclerviewLayout
 
         /**
@@ -100,8 +102,8 @@ class OneFragment : Fragment() {
                 val totalAItem = layoutManager.itemCount
                 Log.e("log2", "totalAItem : $totalAItem")
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
-                Log.e("log2", "totalAItem : $lastVisibleItem")
-                if (!mLoading && lastVisibleItem == totalAItem - 2) {
+                Log.e("log2", "lastVisibleAItem : $lastVisibleItem")
+                if (!mLoading && lastVisibleItem == totalAItem - -1) {
                     mLoading = true
                     fetch()
                 }
@@ -121,7 +123,7 @@ class OneFragment : Fragment() {
     }
 
     private fun fetchSearch() {
-        retrofitInterface.getSearchMovies(
+        service.getSearchMovies(
             Retrofit2App.API_KEY,
             1,
             1,
@@ -146,7 +148,7 @@ class OneFragment : Fragment() {
 
     private fun fetch() {
         Log.e("log", "MainActivity fetch() 실행")
-        retrofitInterface.getSearchMovies(
+        service.getSearchMovies(
             Retrofit2App.API_KEY,
             curPage,
             itemPerPage,

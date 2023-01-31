@@ -1,4 +1,4 @@
-package org.techtown.retrofit2.naverapi
+package org.techtown.retrofit2.response
 
 
 import com.google.gson.annotations.SerializedName

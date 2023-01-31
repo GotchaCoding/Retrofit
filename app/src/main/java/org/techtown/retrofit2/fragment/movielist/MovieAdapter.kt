@@ -5,8 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import org.techtown.retrofit2.listener.MovieClickListener
+import org.techtown.retrofit2.response.Movie
 
 class MovieAdapter(private val movieItemClickListener: MovieClickListener) : // 생성자에 movieItemClickListener 인터페이스 추가
     RecyclerView.Adapter<MovieViewHolder>() {
@@ -85,7 +86,7 @@ class MovieViewHolder(
     var movieName: TextView
     var movieData: TextView
     var btn_remove: Button
-
+    var num: TextView
     var imgStar: ImageView
 
     init {
@@ -93,6 +94,7 @@ class MovieViewHolder(
         movieData = itemView.findViewById(R.id.textView2_adapter_movie)
         btn_remove = itemView.findViewById(R.id.btn_remove)
         imgStar = itemView.findViewById(R.id.img_star)
+        num = itemView.findViewById(R.id.tvn_num)
     }
 
     fun setItem(item: Movie) {
@@ -118,6 +120,8 @@ class MovieViewHolder(
 //            imgStar.setImageDrawable(ContextCompat.getDrawable(imgStar.context,R.drawable.star_non))
             imgStar.setImageResource(R.drawable.star_non)
         }
+        var pos : Int = position + 1
+        num.text = pos.toString()
 
     }
 

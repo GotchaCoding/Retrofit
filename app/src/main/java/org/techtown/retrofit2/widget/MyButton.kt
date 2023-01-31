@@ -1,4 +1,4 @@
-package org.techtown.retrofit2
+package org.techtown.retrofit2.widget
 
 import android.content.Context
 import android.graphics.Canvas
@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatButton
+import org.techtown.retrofit2.R
 
 class MyButton : AppCompatButton {
     constructor(context: Context) : super(context) {

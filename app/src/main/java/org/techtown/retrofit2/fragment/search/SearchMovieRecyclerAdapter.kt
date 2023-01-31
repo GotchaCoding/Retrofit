@@ -8,18 +8,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.techtown.retrofit2.R
+import org.techtown.retrofit2.response.NMItem
 
 
-class NaverAdapter : RecyclerView.Adapter<NaverViewHolder>() {
+class SearchMovieRecyclerAdapter : RecyclerView.Adapter<SearchMovieViewHolder>() {
     var items : ArrayList<NMItem> = ArrayList()
     
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NaverViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchMovieViewHolder {
        val inflater = LayoutInflater.from(parent.context)
-        val itemView = inflater.inflate(R.layout.naver_item, parent, false)
-        return NaverViewHolder(itemView)
+        val itemView = inflater.inflate(R.layout.item_search_movie, parent, false)
+        return SearchMovieViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: NaverViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SearchMovieViewHolder, position: Int) {
         val item = items[position]
         holder.setItem(item)
     }
@@ -28,19 +29,20 @@ class NaverAdapter : RecyclerView.Adapter<NaverViewHolder>() {
         return items.size
     }
     
-    fun addItem_naver(item: List<NMItem>){
+    fun addMovie(item: List<NMItem>){
         val positionStart : Int = this.items.size +1
         this.items.addAll(item)
         notifyItemRangeChanged(positionStart, items.size)
     }
 }
 
-class NaverViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class SearchMovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var naverTitle: TextView
     var naverDate: TextView
     var naverUserRating: TextView
     var naverImage: ImageView
     var naverActor: TextView
+    var naverDirector : TextView
 
     init {
         naverTitle = itemView.findViewById(R.id.naver_title)
@@ -48,13 +50,15 @@ class NaverViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         naverUserRating = itemView.findViewById(R.id.naver_userRating)
         naverImage = itemView.findViewById(R.id.naver_imageView)
         naverActor = itemView.findViewById(R.id.naver_actor)
+        naverDirector = itemView.findViewById(R.id.naver_director)
     }
 
     fun setItem(item: NMItem) {
-        naverTitle.text = item.title
-        naverDate.text = item.pubDate
-        naverUserRating.text = item.userRating
+        naverTitle.text = "제목 : " + item.title
+        naverDate.text = "개봉년도 : " + item.pubDate
+        naverUserRating.text = "평점 : " + item.userRating
         Glide.with(itemView).load(item.image).into(naverImage)
-        naverActor.text = item.actor
+        naverActor.text = "출연배우 : " + item.actor
+        naverDirector.text = "감독 : " + item.director
     }
 }

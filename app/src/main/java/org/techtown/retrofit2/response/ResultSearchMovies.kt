@@ -8,7 +8,7 @@ data class ResultSearchMovies(
 ) {
     data class MovieListResult(
         @SerializedName("movieList")
-        val movieList: List<Movie> = listOf(),
+        val movieList: List<ResultMovie> = listOf(),
         @SerializedName("source")
         val source: String = "",
         @SerializedName("totCnt")

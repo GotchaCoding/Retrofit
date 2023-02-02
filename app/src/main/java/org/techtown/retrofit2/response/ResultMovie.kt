@@ -2,7 +2,7 @@ package org.techtown.retrofit2.response
 
 import com.google.gson.annotations.SerializedName
 
-data class Movie(
+data class ResultMovie(
     @SerializedName("companys")
     val companys: List<ResultSearchMovies.Company> = listOf(),
     @SerializedName("directors")

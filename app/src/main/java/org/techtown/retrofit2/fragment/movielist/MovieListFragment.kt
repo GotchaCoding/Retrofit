@@ -12,19 +12,20 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.techtown.retrofit2.*
-import org.techtown.retrofit2.retrofit.RetrofitClient.Companion.retrofit
 import org.techtown.retrofit2.application.Retrofit2App
-import org.techtown.retrofit2.databinding.FragmentOneBinding
+import org.techtown.retrofit2.databinding.FragmentMovielistBinding
 import org.techtown.retrofit2.listener.MovieClickListener
-import org.techtown.retrofit2.response.Movie
+import org.techtown.retrofit2.model.Movie
+import org.techtown.retrofit2.response.ResultMovie
 import org.techtown.retrofit2.response.ResultSearchMovies
+import org.techtown.retrofit2.retrofit.RetrofitClient.Companion.retrofit
 import org.techtown.retrofit2.retrofit.service.MovieListService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MovieListFragment : Fragment() {
-    lateinit var binding: FragmentOneBinding
+    lateinit var binding: FragmentMovielistBinding
 
 
     private var curPage = 1
@@ -45,7 +46,7 @@ class MovieListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentOneBinding.inflate(inflater, container, false)
+        binding = FragmentMovielistBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -103,7 +104,7 @@ class MovieListFragment : Fragment() {
                 Log.e("log2", "totalAItem : $totalAItem")
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
                 Log.e("log2", "lastVisibleAItem : $lastVisibleItem")
-                if (!mLoading && lastVisibleItem == totalAItem - -1) {
+                if (!mLoading && lastVisibleItem == totalAItem -2) {
                     mLoading = true
                     fetch()
                 }
@@ -122,30 +123,6 @@ class MovieListFragment : Fragment() {
         fetch()
     }
 
-    private fun fetchSearch() {
-        service.getSearchMovies(
-            Retrofit2App.API_KEY,
-            1,
-            1,
-            editText.text.toString()
-        ).enqueue(object : Callback<ResultSearchMovies> {
-            override fun onResponse(
-                call: Call<ResultSearchMovies>,
-                response: Response<ResultSearchMovies>
-            ) {
-                val result = response.body()
-                val movieList: List<Movie> = result!!.movieListResult.movieList
-                adapter.clearItems()
-                adapter.addItems(movieList)
-                tvError.visibility = View.GONE
-            }
-
-            override fun onFailure(call: Call<ResultSearchMovies>, t: Throwable) {
-                tvError.visibility = View.VISIBLE
-            }
-        })
-    }
-
     private fun fetch() {
         Log.e("log", "MainActivity fetch() 실행")
         service.getSearchMovies(
@@ -159,7 +136,21 @@ class MovieListFragment : Fragment() {
                 response: Response<ResultSearchMovies>
             ) {
                 val result = response.body()
-                val movieList: List<Movie> = result!!.movieListResult.movieList
+//                val resultMovieList: List<ResultMovie> = result!!.movieListResult.movieList
+                // Q--> List<ResultMovie> -> List<Movie>
+//                val movieArraylist = ArrayList<Movie>()
+//
+//                for (resultMovie in resultMovieList) {
+//                    val movie = Movie(resultMovie.movieNm, resultMovie.openDt)
+//                   movieArraylist.add(movie)
+//                }
+
+                val movieList = result!!.movieListResult.movieList.map {
+                    Movie(
+                        it.movieNm,
+                        it.prdtYear
+                    )
+                }
                 adapter.addItems(movieList)
                 curPage += 1
                 mLoading = false

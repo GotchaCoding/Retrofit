@@ -8,11 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.techtown.retrofit2.R
+import org.techtown.retrofit2.model.Movie
 import org.techtown.retrofit2.response.NMItem
 
 
 class SearchMovieRecyclerAdapter : RecyclerView.Adapter<SearchMovieViewHolder>() {
-    var items : ArrayList<NMItem> = ArrayList()
+    var items : ArrayList<Movie> = ArrayList()
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchMovieViewHolder {
        val inflater = LayoutInflater.from(parent.context)
@@ -29,7 +30,7 @@ class SearchMovieRecyclerAdapter : RecyclerView.Adapter<SearchMovieViewHolder>()
         return items.size
     }
     
-    fun addMovie(item: List<NMItem>){
+    fun addMovie(item: List<Movie>){
         val positionStart : Int = this.items.size +1
         this.items.addAll(item)
         notifyItemRangeChanged(positionStart, items.size)
@@ -53,11 +54,11 @@ class SearchMovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
         naverDirector = itemView.findViewById(R.id.naver_director)
     }
 
-    fun setItem(item: NMItem) {
+    fun setItem(item: Movie) {
         naverTitle.text = "제목 : " + item.title
-        naverDate.text = "개봉년도 : " + item.pubDate
-        naverUserRating.text = "평점 : " + item.userRating
-        Glide.with(itemView).load(item.image).into(naverImage)
+        naverDate.text = "개봉년도 : " + item.year
+        naverUserRating.text = "평점 : " + item.rank
+        Glide.with(itemView).load(item.imageh).into(naverImage)
         naverActor.text = "출연배우 : " + item.actor
         naverDirector.text = "감독 : " + item.director
     }

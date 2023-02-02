@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import org.techtown.retrofit2.listener.MovieClickListener
-import org.techtown.retrofit2.response.Movie
+import org.techtown.retrofit2.model.Movie
 
 class MovieAdapter(private val movieItemClickListener: MovieClickListener) : // 생성자에 movieItemClickListener 인터페이스 추가
     RecyclerView.Adapter<MovieViewHolder>() {
@@ -90,8 +90,8 @@ class MovieViewHolder(
     var imgStar: ImageView
 
     init {
-        movieName = itemView.findViewById(R.id.textView_adapter_movie)
-        movieData = itemView.findViewById(R.id.textView2_adapter_movie)
+        movieName = itemView.findViewById(R.id.tvTitle)
+        movieData = itemView.findViewById(R.id.tvOpenDate)
         btn_remove = itemView.findViewById(R.id.btn_remove)
         imgStar = itemView.findViewById(R.id.img_star)
         num = itemView.findViewById(R.id.tvn_num)
@@ -99,8 +99,8 @@ class MovieViewHolder(
 
     fun setItem(item: Movie) {
         Log.e("log", "MovieAdapter setItem(item: Movie)실행")
-        movieName.text = item.movieNm
-        movieData.text = item.prdtYear + " 년도"
+        movieName.text = item.title
+        movieData.text = item.year + " 년도"
         btn_remove.setOnClickListener {
             movieItemClickListener.onClick(it, item)              //movieItemClickListener
         }
@@ -120,7 +120,7 @@ class MovieViewHolder(
 //            imgStar.setImageDrawable(ContextCompat.getDrawable(imgStar.context,R.drawable.star_non))
             imgStar.setImageResource(R.drawable.star_non)
         }
-        var pos : Int = position + 1
+        var pos: Int = position + 1
         num.text = pos.toString()
 
     }

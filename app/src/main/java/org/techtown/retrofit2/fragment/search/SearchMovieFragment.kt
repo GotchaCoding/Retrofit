@@ -8,8 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.techtown.retrofit2.application.Retrofit2App
+import org.techtown.retrofit2.databinding.FragmentSeachmovieBinding
+import org.techtown.retrofit2.model.Movie
 import org.techtown.retrofit2.retrofit.RetrofitClient.Companion.retrofitNaver
-import org.techtown.retrofit2.databinding.FragmentTwoBinding
 import org.techtown.retrofit2.response.NMItem
 import org.techtown.retrofit2.response.NaverMovie
 import org.techtown.retrofit2.naverapi.SearchMovieRecyclerAdapter
@@ -19,7 +20,7 @@ import retrofit2.Response
 
 class SearchMovieFragment : Fragment() {
 
-    lateinit var binding: FragmentTwoBinding
+    lateinit var binding: FragmentSeachmovieBinding
 
     private lateinit var adapter: SearchMovieRecyclerAdapter
 
@@ -30,7 +31,7 @@ class SearchMovieFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentTwoBinding.inflate(inflater, container, false)
+        binding = FragmentSeachmovieBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -41,6 +42,7 @@ class SearchMovieFragment : Fragment() {
 
     private fun initView() {
         with(binding) {
+
             btnSearch.setOnClickListener {
                 fetch()
             }
@@ -52,7 +54,7 @@ class SearchMovieFragment : Fragment() {
     }
 
     private fun fetch() {
-        service.naverMovies(
+        service.getSearchMovies(
             Retrofit2App.clientId,
             Retrofit2App.clientSecret,
             binding.edtSearch.text.toString(),
@@ -60,7 +62,16 @@ class SearchMovieFragment : Fragment() {
         ).enqueue(object : retrofit2.Callback<NaverMovie> {
             override fun onResponse(call: Call<NaverMovie>, response: Response<NaverMovie>) {
                 val result = response.body()
-                val movieList: List<NMItem> = result!!.items
+                val movieList= result!!.items.map {
+                    Movie(
+                        it.title,
+                        it.pubDate,
+                        it.userRating,
+                        it.director,
+                        it.actor,
+                        it.image
+                    )
+                }
                 adapter.addMovie(movieList)
             }
 
